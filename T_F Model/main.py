@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-# from TFGen import TFGen
+from TFGen import TFGen
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
@@ -17,19 +17,19 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-# TF = TFGen()
+TF = TFGen()
 
 
 @app.get("/ping")
 async def root():
     return {"status": "success", "data": "pong!"}
 
-# class TextBody(BaseModel):
-#   input_text: str
+class TextBody(BaseModel):
+  input_text: str
 
-# @app.post("/getTF")
-# async def getTF(reqBody: TextBody):
+@app.post("/getTF")
+async def getTF(reqBody: TextBody):
 
-#   output = TF.generate_TF(reqBody)
+  output = TF.generate_TF(reqBody)
 
-#   return {"status":"success","data": output}
+  return {"status":"success","data": output}

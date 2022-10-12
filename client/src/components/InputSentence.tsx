@@ -1,16 +1,28 @@
-import { Box, Button, TextField, Typography } from "@mui/material";
+import { Box, Button, CircularProgress, TextField, Typography } from "@mui/material";
 import axios from "axios";
 import { Dispatch, SetStateAction } from "react";
-interface InputSentenceProps{
-  setTextContent:Dispatch<SetStateAction<string>>
-}
+import { useState } from 'react';
+import GeneratedSentenceComponent from "./GeneratedSentence.tsx";
 
-const InputSentence = (props:InputSentenceProps) => {
+
+const InputSentence = () => {
+
+  const [textContent,setTextContent]=useState('')
+  const [isLoading,setIsLoading]=useState(false)
+  const [generatedSentences,setGeneratedSentences]=useState([])
+  
 
   const handleSetGeneratedSentence=()=>{
-    axios.get('http://localhost:8000/ping')
+    setIsLoading(true)
+    axios.post('http://localhost:8000/getTF',{
+        input_text: textContent
+      
+    })
     .then(function (response) {
-      console.log(response);
+      
+      
+      setIsLoading(false)
+      setGeneratedSentences(response.data.data)
     })
     .catch(function (error) {
       console.log(error);
@@ -18,11 +30,17 @@ const InputSentence = (props:InputSentenceProps) => {
   }
   
   return (
-    <Box sx={{display:'flex',height:'100vh',justifyContent:'center',alignItems:'center',flexDirection:'column'}}>
+    <>
+    <Box sx={{display:'flex',height:'50vh',justifyContent:'center',alignItems:'center',flexDirection:'column'}}>
       <Typography variant="h4">Write a sentence that has at least one verb phrase or noun phrase!</Typography>
-      <TextField sx={{m:4}} focused={true} fullWidth onChange={event=>props.setTextContent(event.target.value)}> </TextField>
-      <Button variant="contained" onClick={handleSetGeneratedSentence}>Falsify</Button>
+      <TextField sx={{m:4}} focused={true} fullWidth onChange={event=>setTextContent(event.target.value)}> </TextField>
+      {!isLoading &&<Button variant="contained" onClick={handleSetGeneratedSentence} disabled={isLoading}>Falsify</Button>}
+      {isLoading && <CircularProgress/>}
     </Box>
+    <Box sx={{display:'flex',justifyContent:'center',alignItems:'center',flexDirection:'column'}}>
+    <GeneratedSentenceComponent generatedSentencesArr={generatedSentences}/>
+    </Box>
+    </>
   )
 }
 

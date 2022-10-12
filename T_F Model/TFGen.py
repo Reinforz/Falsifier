@@ -12,7 +12,7 @@ from transformers import GPT2Tokenizer, TFGPT2LMHeadModel
 class TFGen:
     
     def __init__(self):
-        self.predictor = Predictor.from_path("https://s3-us-west-2.amazonaws.com/allennlp/models/elmo-constituency-parser-2018.03.14.tar.gz")
+        self.predictor = Predictor.from_path("/home/yaseen/Downloads/elmo-constituency-parser-2018.03.14.tar.gz")
         self.nlp = spacy.load('en_core_web_sm')
         self.GPT2tokenizer = GPT2Tokenizer.from_pretrained("gpt2")
         self.GPT2model = TFGPT2LMHeadModel.from_pretrained("gpt2",pad_token_id=self.GPT2tokenizer.eos_token_id)
