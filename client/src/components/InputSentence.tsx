@@ -2,7 +2,7 @@ import { Box, Button, CircularProgress, TextField, Typography } from "@mui/mater
 import axios from "axios";
 import { Dispatch, SetStateAction } from "react";
 import { useState } from 'react';
-import GeneratedSentenceComponent from "./GeneratedSentence.tsx";
+import GeneratedSentenceComponent from "./GeneratedSentence";
 
 
 const InputSentence = () => {
